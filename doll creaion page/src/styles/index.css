@@ -1,0 +1,654 @@
+/* ==========================================================================
+   Create Your Own — doll configurator clone
+   Pink stage + right-hand gradient rail, matching the reference screenshots.
+   ========================================================================== */
+
+:root {
+  --panel-w: 300px;
+
+  /* pinks */
+  --pink-0: #fdf0f6;
+  --pink-1: #f9dcec;
+  --pink-2: #f3c7de;
+  --stage-1: #fbe6f0;
+  --stage-2: #f4cfe3;
+
+  /* magenta / purple brand */
+  --mag-1: #e0459e;
+  --mag-2: #b21d8e;
+  --purple-cta: #8c1f86;
+  --purple-cta-2: #741a72;
+
+  --ink: #3f3b40;
+  --ink-soft: #6b6570;
+
+  --disc-shadow: 0 6px 16px rgba(150, 20, 110, 0.28);
+  --font: 'Century Gothic', 'Futura', 'Trebuchet MS', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ---- shell --------------------------------------------------------------- */
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.app__main {
+  flex: 1 1 auto;
+  position: relative;
+  min-width: 0;
+  background: linear-gradient(180deg, #fff 0%, var(--stage-1) 30%, var(--stage-2) 100%);
+}
+
+.app__panel {
+  flex: 0 0 var(--panel-w);
+  width: var(--panel-w);
+  background: linear-gradient(180deg, var(--pink-1) 0%, var(--pink-0) 55%, #fff 100%);
+  border-left: 1px solid rgba(178, 29, 142, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Right rail (shared shell for all three panels)
+   ========================================================================== */
+.rail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px 18px 20px;
+  gap: 14px;
+}
+
+.rail__scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 4px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--mag-1) transparent;
+}
+.rail__scroll::-webkit-scrollbar { width: 8px; }
+.rail__scroll::-webkit-scrollbar-thumb { background: var(--mag-1); border-radius: 8px; }
+
+/* ---- circular gradient buttons ------------------------------------------ */
+.circle-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+.circle-btn:hover { transform: translateY(-2px); }
+
+.circle-btn__disc {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: radial-gradient(circle at 35% 30%, var(--mag-1), var(--mag-2));
+  box-shadow: var(--disc-shadow);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+}
+.circle-btn--md .circle-btn__disc { width: 82px; height: 82px; }
+.circle-btn--md .circle-btn__disc svg { width: 40px; height: 40px; }
+
+.circle-btn__label {
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: 0.2px;
+}
+.circle-btn.is-active .circle-btn__disc {
+  outline: 3px solid var(--purple-cta);
+  outline-offset: 2px;
+}
+
+/* ---- primary CTA (I'm done designing / Confirm) -------------------------- */
+.cta-btn {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--purple-cta), var(--purple-cta-2));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 10px rgba(116, 26, 114, 0.3);
+  transition: filter 0.15s ease;
+}
+.cta-btn:hover { filter: brightness(1.08); }
+
+/* ---- panel header (subs + options) -------------------------------------- */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.panel-head__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  color: var(--mag-2);
+  font-weight: 600;
+}
+.panel-head__icon { display: grid; place-items: center; color: var(--mag-2); }
+.panel-head__icon svg { width: 22px; height: 22px; }
+
+.panel-head__nav { display: flex; gap: 8px; }
+.nav-arrow {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--mag-2);
+}
+.nav-arrow svg { width: 22px; height: 22px; }
+.nav-arrow:hover { color: var(--purple-cta); }
+
+/* ---- eye left/both/right toggle ----------------------------------------- */
+.eye-toggle {
+  display: flex;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  padding: 4px;
+}
+.eye-toggle__btn {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-transform: capitalize;
+}
+.eye-toggle__btn.is-active {
+  background: linear-gradient(180deg, var(--mag-1), var(--mag-2));
+  color: #fff;
+}
+
+/* ---- option grid --------------------------------------------------------- */
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 12px;
+  align-items: start;
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.option__ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(150, 20, 110, 0.14);
+  transition: box-shadow 0.15s ease;
+}
+.option.is-selected .option__ring {
+  outline: 3px solid var(--mag-1);
+  outline-offset: 1px;
+}
+.option:hover .option__ring { box-shadow: 0 5px 12px rgba(150, 20, 110, 0.24); }
+
+.option__thumb,
+.thumb-img,
+.thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+/* Outfit images are full-body dolls — zoom in on the clothing area */
+.option__ring[data-outfit] {
+  overflow: hidden;
+}
+.option__ring[data-outfit] .thumb-img {
+  object-position: center 60%;
+  transform: scale(2.8);
+  transform-origin: center 65%;
+  border-radius: 0;
+}
+
+.thumb-placeholder {
+  display: grid;
+  place-items: center;
+}
+.thumb-placeholder__label {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  padding: 2px;
+  line-height: 1.1;
+}
+.option__label {
+  font-size: 13px;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.15;
+}
+.option__check {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--mag-1);
+  color: #fff;
+  border: 2px solid #fff;
+}
+.option__check svg { width: 14px; height: 14px; }
+
+/* ==========================================================================
+   Stage (left)
+   ========================================================================== */
+.stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.stage__doll {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  max-height: 92%;
+}
+.doll-vector { height: 78vh; max-height: 620px; width: auto; }
+.doll-photo { height: 82vh; max-height: 680px; width: auto; object-fit: contain; display: block; }
+
+/* Flat photo + live outfit recolor overlay */
+.doll-stack {
+  position: relative;
+  display: inline-block;
+  isolation: isolate; /* keep the blend contained to the doll */
+}
+.doll-recolor {
+  position: absolute;
+  inset: 0;
+  /* recolor the garment while keeping its shading/texture */
+  mix-blend-mode: color;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Tier 1 — American Girl-style layered <img> stack */
+.doll-view {
+  position: relative;
+  height: 82vh;
+  max-height: 680px;
+  aspect-ratio: 540 / 892;
+}
+@keyframes dollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(1.03);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.doll-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.accessory-tray {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.acc-chip { border-radius: 10px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); }
+.acc-chip--bag { width: 60px; height: 66px; border-radius: 8px 8px 12px 12px; }
+.acc-chip--small { width: 46px; height: 30px; border-radius: 999px; }
+.acc-chip--round { width: 40px; height: 40px; border-radius: 50%; }
+
+/* start over + share */
+.stage__startover {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 24px;
+  color: var(--mag-2);
+  font-weight: 500;
+  z-index: 3;
+}
+.stage__startover svg { width: 22px; height: 22px; }
+.stage__startover:hover { color: var(--purple-cta); }
+
+/* Photo / Live-design toggle */
+.stage__mode {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 2px 8px rgba(150, 20, 110, 0.14);
+  z-index: 3;
+}
+.stage__mode-btn {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.stage__mode-btn.is-active {
+  background: linear-gradient(180deg, var(--mag-1), var(--mag-2));
+  color: #fff;
+}
+
+.stage__share {
+  position: absolute;
+  bottom: 24px;
+  left: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  color: var(--mag-2);
+  z-index: 3;
+}
+.stage__share-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--mag-2);
+}
+.stage__share-icon svg { width: 20px; height: 20px; }
+
+/* ==========================================================================
+   Start carousel
+   ========================================================================== */
+.start {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 20px 30px;
+}
+.start__head { text-align: center; }
+.start__title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.start__subtitle {
+  margin: 6px 0 0;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.start__carousel {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 0;
+}
+.carousel-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 100%;
+}
+.carousel-arrow {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--mag-2);
+  box-shadow: 0 3px 10px rgba(150, 20, 110, 0.18);
+}
+.carousel-arrow svg { width: 26px; height: 26px; }
+.carousel-arrow:hover { background: #fff; }
+
+.preset-card {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+  flex: 0 0 auto;
+}
+/* Wrapper that clips the full-size DollPreview down to the card size */
+.preset-card__doll-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+/* Each depth gets its own size */
+.preset-card.depth-0 .preset-card__doll-wrap { width: 280px; height: 560px; }
+.preset-card.depth-1 .preset-card__doll-wrap { width: 200px; height: 470px; }
+.preset-card.depth-2 .preset-card__doll-wrap { width: 155px; height: 390px; }
+
+/* Make the doll-view fill the wrapper completely */
+.preset-card__doll-wrap .doll-view {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+}
+
+@keyframes riseUpCenter {
+  0% { transform: translateY(60px) scale(0.9); opacity: 0; filter: blur(5px); }
+  100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+}
+@keyframes riseUpDepth1 {
+  0% { transform: translateY(30px) scale(0.95); opacity: 0; filter: blur(4px); }
+  100% { transform: translateY(0) scale(1); opacity: 0.7; filter: blur(1px); }
+}
+@keyframes riseUpDepth2 {
+  0% { transform: translateY(20px) scale(0.95); opacity: 0; filter: blur(5px); }
+  100% { transform: translateY(0) scale(1); opacity: 0.45; filter: blur(2px); }
+}
+
+.preset-card.depth-0 { animation: riseUpCenter 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.preset-card.depth-1 { opacity: 0.7; filter: blur(1px); z-index: 1; margin: 0 -10px; animation: riseUpDepth1 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.preset-card.depth-2 { opacity: 0.45; filter: blur(2px); z-index: 0; margin: 0 -20px; animation: riseUpDepth2 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.preset-card.is-focused { z-index: 2; }
+.preset-card.is-focused:hover { transform: translateY(-4px); }
+
+.preset-card__cta {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--purple-cta), var(--purple-cta-2));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(116, 26, 114, 0.35);
+}
+
+.start__price {
+  text-align: right;
+  padding-right: 8px;
+}
+.start__price-line { font-size: 22px; color: var(--ink); }
+.start__ship-line { font-size: 22px; color: var(--ink); }
+
+/* ==========================================================================
+   Responsive (Mobile & Small Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Shell & Main Layout */
+  .app {
+    flex-direction: column; /* Stack stage on top, options on bottom */
+  }
+  .app__main {
+    height: 50vh;
+    flex: none;
+  }
+  .app__panel {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 50vh; /* Remaining half */
+    border-left: none;
+    border-top: 1px solid rgba(178, 29, 142, 0.12);
+  }
+
+  /* 2. Design Stage */
+  .doll-view {
+    height: 40vh;
+    max-height: none;
+  }
+  .stage__startover {
+    top: 12px;
+    left: 12px;
+    font-size: 16px;
+  }
+  .stage__share {
+    bottom: 12px;
+    left: 12px;
+    font-size: 13px;
+  }
+  .stage__mode {
+    top: 12px;
+  }
+
+  /* 3. Option Rails & Grids */
+  .rail {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+  .rail__scroll {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-bottom: 20px; /* Space for scrollbar */
+  }
+  .option-grid.rail__scroll {
+    /* If grid has many items, keep them in one horizontal row */
+    gap: 12px;
+  }
+  .option {
+    width: 80px;
+    flex: 0 0 auto;
+  }
+  .circle-btn {
+    width: 70px;
+    flex: 0 0 auto;
+  }
+  .circle-btn__icon {
+    width: 60px;
+    height: 60px;
+  }
+  .option__ring {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* 4. Start Carousel */
+  .start {
+    padding: 16px 12px;
+  }
+  .start__title {
+    font-size: 24px;
+  }
+  .start__subtitle {
+    font-size: 14px;
+  }
+  .start__price-line,
+  .start__ship-line {
+    font-size: 16px;
+  }
+  .carousel-track {
+    gap: 8px;
+  }
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+  }
+  .carousel-arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Scale down center and inner cards */
+  .preset-card.depth-0 .preset-card__doll-wrap { width: 140px; height: 320px; }
+  .preset-card.depth-1 .preset-card__doll-wrap { width: 90px; height: 260px; }
+
+  
+  /* Hide the outermost cards to save horizontal space on mobile */
+  .preset-card.depth-2 {
+    display: none;
+  }
+  
+  /* Adjust animation translations for smaller cards */
+  @keyframes riseUpCenter {
+    0% { transform: translateY(30px) scale(0.9); opacity: 0; filter: blur(5px); }
+    100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+  }
+  @keyframes riseUpDepth1 {
+    0% { transform: translateY(15px) scale(0.95); opacity: 0; filter: blur(4px); }
+    100% { transform: translateY(0) scale(1); opacity: 0.7; filter: blur(1px); }
+  }
+}

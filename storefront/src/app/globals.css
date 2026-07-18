@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --color-cream: #f9efe8;
+  --color-cream-raised: #ffffff;
+  --color-ink: #221016;
+  --color-ink-soft: #4d3339;
+  --color-muted: #7a6469;
+  --color-line: #ecdcd3;
+
+  --color-brand: #bc0a4d;
+  --color-brand-dark: #8f0838;
+  --color-brand-light: #ffd0d8;
+  --color-brand-tint: #e8adb0;
+
+  --color-gold: #bc0a4d;
+  --color-gold-light: #ffd0d8;
+
+  --color-sage: #8f1d48;
+  --color-sage-light: #f4e3e9;
+
+  --color-royal: #66143b;
+  --color-royal-deep: #45092a;
+  --color-royal-light: #7d1f4c;
+  --color-royal-line: rgba(255, 255, 255, 0.16);
+
+  --shadow-soft: 0 1px 2px rgba(34, 16, 22, 0.06), 0 10px 30px -14px rgba(34, 16, 22, 0.18);
+}
+
+/*
+  This site intentionally has one fixed brand appearance, the same way
+  americangirl.com does not adapt to the visitor's OS light/dark setting.
+  No prefers-color-scheme override on purpose.
+*/
+
+@theme inline {
+  --color-cream: var(--color-cream);
+  --color-cream-raised: var(--color-cream-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
+  --color-brand: var(--color-brand);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-brand-light: var(--color-brand-light);
+  --color-brand-tint: var(--color-brand-tint);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-sage: var(--color-sage);
+  --color-sage-light: var(--color-sage-light);
+  --color-royal: var(--color-royal);
+  --color-royal-deep: var(--color-royal-deep);
+  --color-royal-light: var(--color-royal-light);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), Georgia, serif;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  letter-spacing: 0.14em;
+}
+
+::selection {
+  background: var(--color-brand-tint);
+  color: var(--color-royal);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

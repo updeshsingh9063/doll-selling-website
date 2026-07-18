@@ -1,0 +1,9 @@
+# 6 files 404 on AG's own Cloudinary (their live site breaks on these combos too).
+# Each has a stand-in copied from the nearest sibling render so the mirror never
+# shows a bald/faceless doll. Re-running the scraper keeps the stand-ins (files exist).
+404 face/face-addy-dark-medium-wavy-low-pigtails       <- stand-in: face-addy-dark-medium-wavy-default
+404 hair/hair-medium-wavy-headband-rainbow-round-lets-party    <- stand-in: same name, default part
+404 hair/hair-medium-wavy-double-pony-rainbow-round-lets-party <- stand-in: same name, default part
+404 hair/hair-medium-wavy-low-pigtails-rainbow-round-lets-party <- stand-in: same name, default part
+404 hair/hair-natural-short-default-rainbow-default-lets-party  <- stand-in: win-the-weekend variant
+404 hair/hair-natural-short-headband-rainbow-default-lets-party <- stand-in: win-the-weekend variant
